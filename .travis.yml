@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- "stable"
+
+cache: yarn
+
+before_install:
+  - npm install -g yarn
+
+after_success:
+- yarn coveralls
