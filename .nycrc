@@ -1,0 +1,23 @@
+{
+    "all": true,
+    "cache": true,
+    "exclude": [
+        "coverage",
+        "**/editor.js",
+        "**/gulpfile.js",
+        "**/tasks.js",
+        "**/test/**",
+        "**/*_test.js"
+    ],
+    "extensions": [
+        ".ts"
+    ],
+    "report-dir": "./coverage",
+    "reporter": [
+        "cobertura",
+        "html",
+        "text",
+        "text-summary"
+    ],
+    "temp-directory": "./coverage/.nyc_output"
+}
