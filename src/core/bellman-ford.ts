@@ -12,14 +12,23 @@ export class BellmanFord {
     private edgeTo: Array<Edge> = [],
     private cost: Array<number> = []) {
 
+    this.initial(this.startIdx);
+  }
+
+  private initial(startIdx: number) {
+    this.startIdx = startIdx;
+    this.marked = [];
+    this.edgeTo = [];
+    this.cost = [];
+
     for (let v = 0; v < this.graph.size; ++v) {
       this.marked.push(false);
       this.edgeTo.push(null);
       this.cost.push(Number.MAX_VALUE);
     }
 
-    this.cost[this.startIdx] = 0;
-    this.marked[this.startIdx] = true;
+    this.cost[startIdx] = 0;
+    this.marked[startIdx] = true;
 
     for (let j = 0; j < this.graph.size; ++j) {
       for (let v = 0; v < this.graph.size; ++v) {
@@ -49,7 +58,7 @@ export class BellmanFord {
 
   pathTo(srcIdx: number) {
     let path = new Stack<Edge>();
-    for (let x = srcIdx; x != this.startIdx; x = this.edgeTo[x].other(x)) {
+    for (let x = srcIdx; x != this.startIdx && this.edgeTo[x]; x = this.edgeTo[x].other(x)) {
       path.push(this.edgeTo[x]);
     }
     return path.toArray();
@@ -59,33 +68,32 @@ export class BellmanFord {
     return this.cost[idx];
   }
 
-  getDeliveryCostForRoute(labelFrom: string, labelTo: string) {
+  getPossibleRoute(labelFrom: string, labelTo: string, maxStop: number = 4) {
 
     const from: number = EdgeType[labelFrom];
     const to: number = EdgeType[labelTo];
-    let deliverCost: string = 'No​ ​Such​ ​Route';
+    let routeCount = 0;
+    this.initial(from);
 
-    this.startIdx = from;
+    console.log(`Find route from ${labelFrom} to ${labelTo}`);
 
-    console.log(`===== Path from ${labelFrom} to ${labelTo} =========`);
-
-    if (this.hasPathTo(to)) {
-      let path = this.pathTo(to);
-
+    let v = to;
+    if (this.hasPathTo(v)) {
+      let path = this.pathTo(v);
       for (let i = 0; i < path.length; ++i) {
         let edge = path[i];
-        console.log(`${edge.labelFrom()} => ${edge.labelTo()} : ${edge.weight}`);
+        console.log(`${edge.labelFrom()} => ${edge.labelTo()} , cost: ${edge.weight}`);
+        ++routeCount;
       }
 
-      deliverCost = `${this.distanceTo(to)}`;
-
-      console.log(`===== Total Cost: ${deliverCost} =========`);
+      console.log(`===== Total route: ${routeCount} =========`);
 
     } else {
-      console.log('===== No​ ​Such​ ​Route =========');
+      console.log('===== No​ ​Such​ ​Route ======');
     }
 
-    return deliverCost;
+
+    return routeCount;
   }
 
 }

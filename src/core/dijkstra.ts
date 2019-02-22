@@ -61,6 +61,7 @@ export class Dijkstra {
     for (let x = srcIdx; x != this.startIdx; x = this.edgeTo[x].other(x)) {
       path.push(this.edgeTo[x]);
     }
+    
     return path.toArray();
   }
 
@@ -68,15 +69,15 @@ export class Dijkstra {
     return this.cost[idx];
   }
 
-  getDeliveryCostForRoute(labelFrom: string, labelTo: string) {
+  getPossibleRoute(labelFrom: string, labelTo: string) {
 
     const from: number = EdgeType[labelFrom];
     const to: number = EdgeType[labelTo];
-    let deliverCost: string = 'No​ ​Such​ ​Route';
+    let routeCount = 0;
 
     this.startIdx = from;
 
-    console.log(`===== Path from ${labelFrom} to ${labelTo} =========`);
+    console.log(`Find route from ${labelFrom} to ${labelTo}`);
 
     if (this.hasPathTo(to)) {
       let path = this.pathTo(to);
@@ -84,17 +85,16 @@ export class Dijkstra {
       for (let i = 0; i < path.length; ++i) {
         let edge = path[i];
         console.log(`${edge.labelFrom()} => ${edge.labelTo()} : ${edge.weight}`);
+        ++routeCount;
       }
 
-      deliverCost = `${this.distanceTo(to)}`;
-
-      console.log(`===== Total Cost: ${deliverCost} =========`);
+      console.log(`===== Total route: ${routeCount} =========`);
 
     } else {
-      console.log('===== No​ ​Such​ ​Route =========');
+      console.log('===== No​ ​Such​ ​Route ======');
     }
 
-    return deliverCost;
+    return routeCount;
   }
 
 }
