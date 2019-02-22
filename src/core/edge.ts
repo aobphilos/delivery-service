@@ -1,7 +1,14 @@
+import { EdgeType } from '../enum/edge-type';
+
 export class Edge {
-  constructor(public srcIdx: number
-    , public dstIdx: number
-    , public weight: number) {
+
+  constructor(labelFrom: string
+    , labelTo: string
+    , public weight: number
+    , public srcIdx: number = 0
+    , public dstIdx: number = 0) {
+    this.srcIdx = EdgeType[labelFrom];
+    this.dstIdx = EdgeType[labelTo];
   }
 
   either() {
@@ -15,5 +22,11 @@ export class Edge {
   }
   to() {
     return this.dstIdx;
+  }
+  labelFrom() {
+    return EdgeType[this.srcIdx];
+  }
+  labelTo() {
+    return EdgeType[this.dstIdx];
   }
 }

@@ -1,4 +1,5 @@
 
+import { EdgeType } from '../enum/edge-type';
 import { IGraphCommon } from '../interfaces/igraph';
 import { Edge } from './edge';
 
@@ -20,7 +21,7 @@ export class Graph implements IGraphCommon {
     this.verticesList[srcIdx].push(dstIdx);
     this.verticesList[dstIdx].push(srcIdx);
     const edge_id = this.getEdgeId(srcIdx, dstIdx);
-    this.edges[edge_id] = new Edge(srcIdx, dstIdx, 0);
+    this.edges[edge_id] = new Edge(EdgeType[srcIdx], EdgeType[dstIdx], 0);
   }
 
   vertices(idx: number) {
@@ -54,7 +55,7 @@ export class DiGraph implements IGraphCommon {
   addEdge(srcIdx: number, dstIdx: number) {
     const edge_id = `${srcIdx}_${dstIdx}`;
     this.verticesList[srcIdx].push(dstIdx);
-    this.edges[edge_id] = new Edge(srcIdx, dstIdx, 0);
+    this.edges[edge_id] = new Edge((<EdgeType>srcIdx).toString(), (<EdgeType>dstIdx).toString(), 0);
   }
 
   edge(srcIdx: number, dstIdx: number) {

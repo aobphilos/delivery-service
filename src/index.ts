@@ -1,3 +1,5 @@
 export { BellmanFord } from './core/bellman-ford';
-export { WeightedDiGraph } from './core/weighted-graph';
+export { Dijkstra } from './core/dijkstra';
+export { WeightedDiGraph, WeightedGraph } from './core/weighted-graph';
 export { Edge } from './core/edge';
+export { EdgeType } from './enum/edge-type';

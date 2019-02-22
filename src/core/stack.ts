@@ -49,8 +49,8 @@ export class Stack<T> {
     return this.first.value;
   }
 
-  toArray() {
-    const result = [];
+  toArray(): Array<T> {
+    const result = new Array<T>();
     let x = this.first;
     while (x != null) {
       result.push(x.value);

@@ -1,12 +1,13 @@
 import { WeightedGraph } from './weighted-graph';
 import { Stack } from './stack';
 import { Edge } from './edge';
+import { EdgeType } from '../enum/edge-type';
 
 export class BellmanFord {
 
   constructor(
     public graph: WeightedGraph,
-    private startIdx: number,
+    private startIdx: number = 0,
     private marked: Array<boolean> = [],
     private edgeTo: Array<Edge> = [],
     private cost: Array<number> = []) {
@@ -29,7 +30,7 @@ export class BellmanFord {
         }
       }
     }
-    
+
   }
 
   relax(edge: Edge) {
@@ -56,6 +57,35 @@ export class BellmanFord {
 
   distanceTo(idx: number) {
     return this.cost[idx];
+  }
+
+  getDeliveryCostForRoute(labelFrom: string, labelTo: string) {
+
+    const from: number = EdgeType[labelFrom];
+    const to: number = EdgeType[labelTo];
+    let deliverCost: string = 'No​ ​Such​ ​Route';
+
+    this.startIdx = from;
+
+    console.log(`===== Path from ${labelFrom} to ${labelTo} =========`);
+
+    if (this.hasPathTo(to)) {
+      let path = this.pathTo(to);
+
+      for (let i = 0; i < path.length; ++i) {
+        let edge = path[i];
+        console.log(`${edge.labelFrom()} => ${edge.labelTo()} : ${edge.weight}`);
+      }
+
+      deliverCost = `${this.distanceTo(to)}`;
+
+      console.log(`===== Total Cost: ${deliverCost} =========`);
+
+    } else {
+      console.log('===== No​ ​Such​ ​Route =========');
+    }
+
+    return deliverCost;
   }
 
 }
