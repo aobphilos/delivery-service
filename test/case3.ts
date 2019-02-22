@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import { Edge, WeightedDiGraph, WeightedGraph, BellmanFord } from '../src';
+import { beforeEach } from 'mocha';
+import { Edge, EdgeType, WeightedDiGraph, WeightedGraph, BellmanFord } from '../src';
 
-describe('Case 2: ​Calculate​ ​the​ ​number​ ​of​ ​possible​ ​delivery​ ​route​ ​that​ ​can​ ​be​ ​construct​ ​by​ ​the​ ​given conditions.\n', () => {
+describe('Case 3: ​Calculate​ ​the​ ​cheapest​ ​delivery​ ​route​ ​between​ ​two​ ​town.\n', () => {
 
-    describe('Example:: AB1,​ ​​ ​AC4,​ ​AD10,​ ​BE3,​ ​CD4,​ ​CF2,​ ​DE1,​ ​EB3,​ ​EA2,​ ​FD1', () => {
+    describe('Example:: ​the​ ​cost​ ​of​ ​cheapest​ ​delivery​ ​route​ ​between​ ​E​ ​to​ ​D', () => {
 
         let graph: WeightedGraph;
         let algorthm: BellmanFord;
@@ -30,11 +31,11 @@ describe('Case 2: ​Calculate​ ​the​ ​number​ ​of​ ​possible​
             expect(edgeCount).to.equal(10);
         });
 
-        it('The​ ​number​ ​of​ ​possible​ ​delivery​ route​ ​from​ ​E​ ​to​ ​D​ ​with​ ​a​ ​maximum​ ​of​ ​4​ ​stop without​ ​using​ ​the​ ​same​ ​route​ ​twice​ ​in​ ​a​ ​delivery​ ​route\n', () => {
+        it('The​ ​cost​ ​of​ ​cheapest​ ​delivery​ ​route​ ​between​ ​E​ ​to​ ​D\n', () => {
             algorthm = new BellmanFord(graph);
-            const count = algorthm.getPossibleRoute('E', 'D');
-            expect(count).to.equal(4);
+            const cost = algorthm.getCheapestRoute('E', 'D');
+            expect(cost).to.equal(9);
         });
-
+        
     });
 });

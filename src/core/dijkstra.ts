@@ -13,6 +13,14 @@ export class Dijkstra {
     private edgeTo: Array<Edge> = [],
     private cost: Array<number> = [],
     private pq: IndexMinPQ = null) {
+    this.initial(this.startIdx);
+  }
+
+  private initial(startIdx: number) {
+    this.startIdx = startIdx;
+    this.marked = [];
+    this.edgeTo = [];
+    this.cost = [];
 
     for (let v = 0; v < this.graph.size; ++v) {
       this.marked.push(false);
@@ -20,19 +28,17 @@ export class Dijkstra {
       this.cost.push(Number.MAX_VALUE);
     }
 
-    this.cost[this.startIdx] = 0;
-    this.pq = new IndexMinPQ(graph.size);
-    this.pq.insert(this.startIdx, this.cost[this.startIdx]);
+    this.cost[startIdx] = 0;
+    this.marked[startIdx] = true;
 
-    while (!this.pq.isEmpty()) {
-      let srcIdx = this.pq.delMin();
-      this.marked[srcIdx] = true;
-      let vertices = this.graph.vertices(srcIdx);
-      for (let i = 0; i < vertices.length; ++i) {
-        let edge = vertices[i];
-        this.relax(edge);
+    for (let j = 0; j < this.graph.size; ++j) {
+      for (let v = 0; v < this.graph.size; ++v) {
+        let vertices = this.graph.vertices(v);
+        for (let i = 0; i < vertices.length; ++i) {
+          let edge = vertices[i];
+          this.relax(edge);
+        }
       }
-
     }
 
   }
@@ -61,7 +67,7 @@ export class Dijkstra {
     for (let x = srcIdx; x != this.startIdx; x = this.edgeTo[x].other(x)) {
       path.push(this.edgeTo[x]);
     }
-    
+
     return path.toArray();
   }
 
@@ -74,27 +80,54 @@ export class Dijkstra {
     const from: number = EdgeType[labelFrom];
     const to: number = EdgeType[labelTo];
     let routeCount = 0;
-
-    this.startIdx = from;
+    this.initial(from);
 
     console.log(`Find route from ${labelFrom} to ${labelTo}`);
 
-    if (this.hasPathTo(to)) {
-      let path = this.pathTo(to);
-
+    let v = to;
+    if (this.hasPathTo(v)) {
+      let path = this.pathTo(v);
       for (let i = 0; i < path.length; ++i) {
         let edge = path[i];
-        console.log(`${edge.labelFrom()} => ${edge.labelTo()} : ${edge.weight}`);
+        console.log(`${edge.labelFrom()} => ${edge.labelTo()} , cost: ${edge.weight}`);
         ++routeCount;
       }
 
-      console.log(`===== Total route: ${routeCount} =========`);
+      console.log(`Total route: ${routeCount}`);
 
     } else {
       console.log('===== No​ ​Such​ ​Route ======');
     }
 
+
     return routeCount;
+  }
+
+  getCheapestRoute(labelFrom: string, labelTo: string) {
+    const from: number = EdgeType[labelFrom];
+    const to: number = EdgeType[labelTo];
+    let routeCost = 0;
+    this.initial(from);
+
+    console.log(`Find the cheapest cost for a route from ${labelFrom} to ${labelTo}`);
+
+    let v = to;
+    if (this.hasPathTo(v)) {
+      let path = this.pathTo(v);
+      for (let i = 0; i < path.length; ++i) {
+        let edge = path[i];
+        console.log(`${edge.labelFrom()} => ${edge.labelTo()} , cost: ${edge.weight}`);
+        routeCost += edge.weight;
+      }
+
+      console.log(`Total cost: ${routeCost}`);
+
+    } else {
+      console.log('===== No​ ​Such​ ​Route ======');
+    }
+
+    return routeCost;
+
   }
 
 }

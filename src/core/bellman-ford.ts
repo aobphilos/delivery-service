@@ -68,7 +68,7 @@ export class BellmanFord {
     return this.cost[idx];
   }
 
-  getPossibleRoute(labelFrom: string, labelTo: string, maxStop: number = 4) {
+  getPossibleRoute(labelFrom: string, labelTo: string) {
 
     const from: number = EdgeType[labelFrom];
     const to: number = EdgeType[labelTo];
@@ -86,7 +86,7 @@ export class BellmanFord {
         ++routeCount;
       }
 
-      console.log(`===== Total route: ${routeCount} =========`);
+      console.log(`Total route: ${routeCount}`);
 
     } else {
       console.log('===== No​ ​Such​ ​Route ======');
@@ -94,6 +94,33 @@ export class BellmanFord {
 
 
     return routeCount;
+  }
+
+  getCheapestRoute(labelFrom: string, labelTo: string) {
+    const from: number = EdgeType[labelFrom];
+    const to: number = EdgeType[labelTo];
+    let routeCost = 0;
+    this.initial(from);
+
+    console.log(`Find the cheapest cost for a route from ${labelFrom} to ${labelTo}`);
+
+    let v = to;
+    if (this.hasPathTo(v)) {
+      let path = this.pathTo(v);
+      for (let i = 0; i < path.length; ++i) {
+        let edge = path[i];
+        console.log(`${edge.labelFrom()} => ${edge.labelTo()} , cost: ${edge.weight}`);
+        routeCost += edge.weight;
+      }
+
+      console.log(`Total cost: ${routeCost}`);
+
+    } else {
+      console.log('===== No​ ​Such​ ​Route ======');
+    }
+
+    return routeCost;
+
   }
 
 }
