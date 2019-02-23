@@ -1,11 +1,11 @@
 language: node_js
-node_js:
-- "stable"
+node_js: 
+  - "stable"
 
 cache: yarn
 
-before_install:
+before_install: 
   - npm install -g yarn
 
-after_success:
-- yarn coveralls
+after_success: 
+  - yarn coveralls
