@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { beforeEach } from 'mocha';
-import { Edge, EdgeType, WeightedDiGraph, WeightedGraph, BellmanFord } from '../src';
+import { Edge, WeightedDiGraph, WeightedGraph, BellmanFord } from '../src';
 
 describe('Case 3: ​Calculate​ ​the​ ​cheapest​ ​delivery​ ​route​ ​between​ ​two​ ​town.\n', () => {
 

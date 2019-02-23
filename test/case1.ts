@@ -53,6 +53,14 @@ describe('Case 1:  ​Calculate​ ​the​ ​delivery​ ​cost​ ​of​ 
             expect(cost).to.equal('0');
         });
 
+        it(`The​ ​delivery​ ​cost​ ​for​ ​route​ : null or empty, output : Invalid Route\n`, () => {
+            const cost1 = graph.getDeliveryCostForRoute();
+            expect(cost1).to.equal('Invalid Route');
+
+            const cost2 = graph.getDeliveryCostForRoute('');
+            expect(cost2).to.equal('Invalid Route');
+        });
+
     });
 
 });

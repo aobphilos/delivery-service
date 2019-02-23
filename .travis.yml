@@ -8,4 +8,4 @@ before_install:
   - npm install -g yarn
 
 after_success: 
-  - yarn coverage
+  - yarn coveralls

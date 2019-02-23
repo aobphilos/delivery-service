@@ -1,6 +1,5 @@
 import { IGraph } from '../interfaces/igraph';
 import { Edge } from './edge';
-import { DiGraph } from './graph';
 import { EdgeType } from '../enum/edge-type';
 
 export class WeightedGraph implements IGraph<Edge> {
@@ -55,22 +54,23 @@ export class WeightedDiGraph extends WeightedGraph {
     return null;
   }
 
-  toDiGraph() {
-    const graph = new DiGraph(this.size);
-    for (let srcIdx = 0; srcIdx < this.size; ++srcIdx) {
-      let vertices = this.verticesList[srcIdx];
-      for (let i = 0; i < vertices.length; ++i) {
-        let edge = vertices[i];
-        let dstIdx = edge.other(srcIdx);
-        graph.addEdge(srcIdx, dstIdx);
-      }
-    }
-    return graph;
-  }
-
   getDeliveryCostForRoute(...labels: string[]) {
 
     if (!labels || labels.length === 0) {
+      return 'Invalid Route';
+    }
+
+    let foundNothing = false;
+    for (let i = 0; i < labels.length; ++i) {
+      let label = labels[i];
+      let edge = EdgeType[label];
+
+      if (!edge && !label) {
+        foundNothing = true;
+        break;
+      }
+    }
+    if (foundNothing) {
       return 'Invalid Route';
     }
 
